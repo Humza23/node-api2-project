@@ -89,6 +89,24 @@ router.delete('/:id', (req, res) => {
           message: 'Error removing the adopter',
         });
       });
-  });
+});
+
+router.get('/:id/comments', (req, res) => {
+    // 404 if not found & get all posts with id
+    allPosts.findPostComments(req.params.id)
+    .then(posts => {
+        if (!posts) {
+            res.status(404).json({ message: "The post with the specified ID does not exist"})
+        } else {
+            res.status(200).json(posts)
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+        message: 'The comments information could not be retrieved'
+    })
+})
+})
 
 module.exports = router

@@ -81,8 +81,9 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     allPosts.remove(req.params.id)
       .then(deletedPost => {
-        if (deletedPost > 0) {
-          res.status(200).json(deletedPost)
+        if (deletedPost) {
+            const post = allPosts.findById(req.params.id)
+            res.status(200).json(post)
         } else if (!deletedPost){
           res.status(404).json({ message: "The post with the specified ID does not exist" });
         }
